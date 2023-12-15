@@ -1,0 +1,37 @@
+.my-input-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .label {
+        color: rgba(27, 43, 65, 0.72);
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin-bottom: 5px;
+        margin-top: 16px;
+    }
+    .input-wrap{
+        display: flex;
+        border: 1px solid rgba(28, 55, 90, 0.16);
+        border-radius: 3px;
+        margin-top: 5px;
+        padding: 14px 5px;
+        color: rgba(24, 39, 58, 0.94);
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 22px; 
+        .input {
+            border: none;
+            width: 100%;
+            outline: none;
+        }
+        .eye-icon {
+            display: block;
+            background: url('./../../assets/icons/eye-icon.png') center center / contain no-repeat;
+            width: 24px;
+            height: 24px;
+        }
+    }
+}
