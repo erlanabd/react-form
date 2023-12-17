@@ -6,6 +6,9 @@
     line-height: normal;
     margin-bottom: 5px;
 }
+.label-error {
+    color: red;
+}
 .input {
     margin-top: 5px;
     border-radius: 3px;
@@ -16,4 +19,7 @@
     font-style: normal;
     font-weight: 500;
     line-height: 22px; 
+}
+.input-error {
+    border-color: red;
 }

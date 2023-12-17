@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TitleBar from "../../components/title-bar";
 import styles from "./styles.module.scss";
 import LogoImage from "../../components/logo-image";
@@ -8,9 +8,37 @@ import MyInput from "../../components/my-input";
 import Footer from "../../components/footer";
 import AntInput from "../../components/ant-input";
 import MainButton from "../../components/main-button";
+import { Controller, useForm } from "react-hook-form";
 
-const LogIn = (props) => {
-  const {} = props;
+const LogIn = () => {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isDirty, isSubmitSuccessful },
+  } = useForm({
+    defaultValues: {
+      emailAdress: "",
+      userPassword: "",
+      rememberEmail: false,
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({
+        fullName: "",
+        emailAdress: "",
+        userPassword: "",
+        rememberEmail: false,
+      });
+    }
+  }, [isSubmitSuccessful, reset]);
+
   return (
     <div className={styles["login-wrap"]}>
       <LogoImage className={styles["sign-in-logo"]} />
@@ -18,25 +46,71 @@ const LogIn = (props) => {
         title="Log in to your Account"
         description="Welcome back, please enter your details"
       />
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <GoogleButton />
         <OrDesign />
-        <AntInput label="Email Adress" />
-        <MyInput />
-        <div className={styles["checkbox-forgot-wrap"]}>
-          <div className={styles["checkbox-wrap"]}>
-            <input
-              className={styles["checkbox"]}
-              id="checkbox"
-              type="checkbox"
+        <Controller
+          name="emailAdress"
+          control={control}
+          rules={{
+            required: "Please enter an email",
+            pattern: {
+              value:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: "Please enter a valid email",
+            },
+          }}
+          render={({ field, fieldState }) => (
+            <AntInput
+              value={field.value}
+              onChange={field.onChange}
+              label="Email Adress"
+              hasError={fieldState.error}
             />
-            <label className={styles["label"]} htmlFor="checkbox">
-              Remember me
-            </label>
-          </div>
-          <span className={styles["text"]}>Forgot password?</span>
-        </div>
-        <MainButton title="Log in" />
+          )}
+        />
+        <Controller
+          name="userPassword"
+          control={control}
+          rules={{
+            minLength: {
+              value: 8,
+              message: "It must be at least 8 characters",
+            },
+            required: "This field is mandatory",
+          }}
+          render={({ field, fieldState }) => (
+            <MyInput
+              value={field.value}
+              onChange={field.onChange}
+              hasError={fieldState.error}
+            />
+          )}
+        />
+        <Controller
+          name="rememberEmail"
+          control={control}
+          render={({ field }) => (
+            <div className={styles["checkbox-forgot-wrap"]}>
+              <div className={styles["checkbox-wrap"]}>
+                <input
+                  className={styles["checkbox"]}
+                  id="checkbox"
+                  type="checkbox"
+                  onChange={field.onChange}
+                  value={field.value}
+                  checked={field.value}
+                />
+                <label className={styles["label"]} htmlFor="checkbox">
+                  Remember me
+                </label>
+              </div>
+              <span className={styles["text"]}>Forgot password?</span>
+            </div>
+          )}
+        />
+
+        <MainButton disabled={!isDirty} title="Log in" />
         <Footer
           className={styles["footer-sign-in"]}
           text='Don"t have an account?'

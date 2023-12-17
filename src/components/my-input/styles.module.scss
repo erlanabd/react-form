@@ -10,10 +10,20 @@
         line-height: normal;
         margin-bottom: 5px;
         margin-top: 16px;
+        &:hover  {
+            + .input-wrap {
+                border-color: #1677FF;
+            }    
+        }
+    }
+    .label-error {
+        color: red
     }
     .input-wrap{
         display: flex;
-        border: 1px solid rgba(28, 55, 90, 0.16);
+        border-width: 1px;
+        border-style: solid;
+        border-color: rgba(28, 55, 90, 0.16);;
         border-radius: 3px;
         margin-top: 5px;
         padding: 14px 5px;
@@ -22,6 +32,11 @@
         font-style: normal;
         font-weight: 500;
         line-height: 22px; 
+       &:hover {
+        border-color: #1677FF;
+        transition-duration: .5s;
+        transition-timing-function: ease;
+       }
         .input {
             border: none;
             width: 100%;
@@ -33,5 +48,11 @@
             width: 24px;
             height: 24px;
         }
+        
     }
+    .input-wrap-error {
+        border: 1px solid red;
+    }
+   
+    
 }
