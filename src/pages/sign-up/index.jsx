@@ -11,6 +11,7 @@ import MainButton from "../../components/main-button";
 import { Controller, useForm } from "react-hook-form";
 import { clsx } from "clsx";
 import StyledError from "../../components/styled-error-text";
+import { INPUT_EMAIL_PATTERN } from "../sign-in";
 
 const SignUp = () => {
   const {
@@ -86,8 +87,7 @@ const SignUp = () => {
           rules={{
             required: "Please enter an email",
             pattern: {
-              value:
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              value: INPUT_EMAIL_PATTERN,
               message: "Please enter a valid email",
             },
           }}

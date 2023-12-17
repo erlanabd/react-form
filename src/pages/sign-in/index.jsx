@@ -10,6 +10,9 @@ import AntInput from "../../components/ant-input";
 import MainButton from "../../components/main-button";
 import { Controller, useForm } from "react-hook-form";
 
+const INPUT_EMAIL_PATTERN =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 const LogIn = () => {
   const {
     control,
@@ -55,8 +58,7 @@ const LogIn = () => {
           rules={{
             required: "Please enter an email",
             pattern: {
-              value:
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              value: INPUT_EMAIL_PATTERN,
               message: "Please enter a valid email",
             },
           }}
@@ -122,4 +124,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export { INPUT_EMAIL_PATTERN, LogIn };
