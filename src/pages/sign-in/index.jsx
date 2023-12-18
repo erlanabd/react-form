@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import LogoImage from "../../components/logo-image";
 import GoogleButton from "../../components/google-button";
 import OrDesign from "../../components/or-design";
-import MyInput from "../../components/my-input";
+import InputPassword from "../../components/input-password";
 import Footer from "../../components/footer";
 import AntInput from "../../components/ant-input";
 import MainButton from "../../components/main-button";
@@ -82,7 +82,7 @@ const LogIn = () => {
             required: "This field is mandatory",
           }}
           render={({ field, fieldState }) => (
-            <MyInput
+            <InputPassword
               value={field.value}
               onChange={field.onChange}
               hasError={fieldState.error}

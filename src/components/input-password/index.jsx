@@ -3,7 +3,7 @@ import { useState } from "react";
 import StyledError from "../styled-error-text";
 import styles from "./styles.module.scss";
 
-const MyInput = (props) => {
+const InputPassword = (props) => {
   const [typeInput, setTypeInput] = useState("password");
 
   const { labelText = "Password", value, onChange, hasError } = props;
@@ -35,11 +35,8 @@ const MyInput = (props) => {
         />
         <i onClick={handleClickInputType} className={styles["eye-icon"]}></i>
       </div>
-      {hasError && hasError.type === "required" && (
-        <StyledError> {hasError.message} </StyledError>
-      )}
-      {hasError && hasError.type === "minLength" && (
-        <StyledError> {hasError.message} </StyledError>
+      {hasError && hasError.message && (
+        <StyledError>{hasError.message}</StyledError>
       )}
       {hasError && hasError.type === "validate" && (
         <StyledError>Password and Confirm Password must be mutch</StyledError>
@@ -48,4 +45,4 @@ const MyInput = (props) => {
   );
 };
 
-export default MyInput;
+export default InputPassword;

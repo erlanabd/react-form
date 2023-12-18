@@ -4,7 +4,7 @@ import TitleBar from "../../components/title-bar";
 import LogoImage from "../../components/logo-image";
 import GoogleButton from "../../components/google-button";
 import OrDesign from "../../components/or-design";
-import MyInput from "../../components/my-input";
+import InputPassword from "../../components/input-password";
 import Footer from "../../components/footer";
 import AntInput from "../../components/ant-input";
 import MainButton from "../../components/main-button";
@@ -115,7 +115,7 @@ const SignUp = () => {
           control={control}
           render={({ field, fieldState }) => {
             return (
-              <MyInput
+              <InputPassword
                 value={field.value}
                 onChange={field.onChange}
                 labelText="Password*"
@@ -139,7 +139,7 @@ const SignUp = () => {
           }}
           render={({ field, fieldState }) => {
             return (
-              <MyInput
+              <InputPassword
                 value={field.value}
                 onChange={field.onChange}
                 labelText="Confirm Password*"
@@ -184,7 +184,7 @@ const SignUp = () => {
           className={styles["footer-sign-in"]}
           text="Already have an account?"
           linkText="Sign in"
-          link="/"
+          link="/log-in"
         />
       </form>
     </div>
