@@ -4,16 +4,29 @@ import styles from "./styles.module.scss";
 import LogoImage from "../../components/logo-image";
 import GoogleButton from "../../components/google-button";
 import OrDesign from "../../components/or-design";
-import MyInput from "../../components/my-input";
+import InputPassword from "../../components/my-input";
 import Footer from "../../components/footer";
 import AntInput from "../../components/ant-input";
 import MainButton from "../../components/main-button";
 import { Controller, useForm } from "react-hook-form";
-
-const INPUT_EMAIL_PATTERN =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const LogIn = () => {
+  const schema = yup.object().shape({
+    emailAdress: yup
+      .string()
+      .required("Please enter your email")
+      .matches(
+        /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+        "Please enter a valid email"
+      ),
+    userPassword: yup
+      .string()
+      .min(5, "It must be at least 5 characters")
+      .required("Please enter your password"),
+  });
+
   const {
     control,
     handleSubmit,
@@ -25,6 +38,7 @@ const LogIn = () => {
       userPassword: "",
       rememberEmail: false,
     },
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = (data) => {
@@ -55,13 +69,6 @@ const LogIn = () => {
         <Controller
           name="emailAdress"
           control={control}
-          rules={{
-            required: "Please enter an email",
-            pattern: {
-              value: INPUT_EMAIL_PATTERN,
-              message: "Please enter a valid email",
-            },
-          }}
           render={({ field, fieldState }) => (
             <AntInput
               value={field.value}
@@ -74,15 +81,8 @@ const LogIn = () => {
         <Controller
           name="userPassword"
           control={control}
-          rules={{
-            minLength: {
-              value: 8,
-              message: "It must be at least 8 characters",
-            },
-            required: "This field is mandatory",
-          }}
           render={({ field, fieldState }) => (
-            <MyInput
+            <InputPassword
               value={field.value}
               onChange={field.onChange}
               hasError={fieldState.error}
@@ -111,7 +111,6 @@ const LogIn = () => {
             </div>
           )}
         />
-
         <MainButton disabled={!isDirty} title="Log in" />
         <Footer
           className={styles["footer-sign-in"]}
@@ -124,4 +123,4 @@ const LogIn = () => {
   );
 };
 
-export { INPUT_EMAIL_PATTERN, LogIn };
+export default LogIn;

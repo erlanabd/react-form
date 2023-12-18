@@ -31,14 +31,8 @@ const AntInput = (props) => {
         className={inputClasses}
         id={label}
       />
-      {hasError && hasError.type === "pattern" && (
+      {hasError && hasError.message && (
         <StyledError> {hasError.message} </StyledError>
-      )}
-      {hasError && hasError.type === "required" && (
-        <StyledError>{hasError.message}</StyledError>
-      )}
-      {hasError && hasError.type === "minLength" && (
-        <StyledError>{hasError.message}</StyledError>
       )}
     </div>
   );

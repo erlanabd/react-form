@@ -4,20 +4,42 @@ import TitleBar from "../../components/title-bar";
 import LogoImage from "../../components/logo-image";
 import GoogleButton from "../../components/google-button";
 import OrDesign from "../../components/or-design";
-import MyInput from "../../components/my-input";
+import InputPassword from "../../components/my-input";
 import Footer from "../../components/footer";
 import AntInput from "../../components/ant-input";
 import MainButton from "../../components/main-button";
 import { Controller, useForm } from "react-hook-form";
 import { clsx } from "clsx";
 import StyledError from "../../components/styled-error-text";
-import { INPUT_EMAIL_PATTERN } from "../sign-in";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const SignUp = () => {
+  const schema = yup.object().shape({
+    fullName: yup
+      .string()
+      .min(5, "It must be at least 5 characters")
+      .required("Please enter your fullname"),
+    emailAdress: yup
+      .string()
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Please enter a valid email")
+      .required("Please enter your email address"),
+    userPassword: yup
+      .string()
+      .required("Please enter your password.")
+      .min(8, "Your password is too short."),
+    confirmUserPassword: yup
+      .string()
+      .required("Please retype your password.")
+      .oneOf([yup.ref("userPassword")], "Your passwords do not match."),
+    agreement: yup
+      .string()
+      .required("Please confirm that you have read and agree with Terms"),
+  });
+
   const {
     control,
     handleSubmit,
-    getValues,
     formState: { isDirty, isSubmitSuccessful, errors },
     reset,
   } = useForm({
@@ -28,6 +50,7 @@ const SignUp = () => {
       confirmUserPassword: "",
       agreement: "",
     },
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = (data) => {
@@ -63,13 +86,6 @@ const SignUp = () => {
         <Controller
           name="fullName"
           control={control}
-          rules={{
-            required: "This field is mandatory",
-            minLength: {
-              value: 5,
-              message: "It must be at least 5 characters",
-            },
-          }}
           render={({ field, fieldState }) => {
             return (
               <AntInput
@@ -84,13 +100,6 @@ const SignUp = () => {
         <Controller
           name="emailAdress"
           control={control}
-          rules={{
-            required: "Please enter an email",
-            pattern: {
-              value: INPUT_EMAIL_PATTERN,
-              message: "Please enter a valid email",
-            },
-          }}
           render={({ field, fieldState }) => {
             return (
               <AntInput
@@ -105,17 +114,10 @@ const SignUp = () => {
         />
         <Controller
           name="userPassword"
-          rules={{
-            required: "This field is mandatory",
-            minLength: {
-              value: 5,
-              message: "It must be at least 5 characters",
-            },
-          }}
           control={control}
           render={({ field, fieldState }) => {
             return (
-              <MyInput
+              <InputPassword
                 value={field.value}
                 onChange={field.onChange}
                 labelText="Password*"
@@ -127,19 +129,9 @@ const SignUp = () => {
         <Controller
           name="confirmUserPassword"
           control={control}
-          rules={{
-            required: "This field is mandatory",
-            minLength: {
-              value: 5,
-              message: "It must be at least 5 characters",
-            },
-            validate: (value) => {
-              return value === getValues("userPassword");
-            },
-          }}
           render={({ field, fieldState }) => {
             return (
-              <MyInput
+              <InputPassword
                 value={field.value}
                 onChange={field.onChange}
                 labelText="Confirm Password*"
@@ -151,7 +143,6 @@ const SignUp = () => {
         <Controller
           name="agreement"
           control={control}
-          rules={{ required: true }}
           render={({ field, fieldState }) => {
             return (
               <div className={styles["checkbox-forgot-wrap"]}>
@@ -172,7 +163,7 @@ const SignUp = () => {
                   </label>
                 </div>
                 {fieldState.error && (
-                  <StyledError>You must agree with Terms</StyledError>
+                  <StyledError>{fieldState.error.message}</StyledError>
                 )}
               </div>
             );
@@ -184,7 +175,7 @@ const SignUp = () => {
           className={styles["footer-sign-in"]}
           text="Already have an account?"
           linkText="Sign in"
-          link="/"
+          link="/log-in"
         />
       </form>
     </div>
